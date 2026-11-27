@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Ineersa\Hatfield\ExtensionApi\Approval;
 
 use Ineersa\Hatfield\ExtensionApi\Tool\ToolCallDecisionDTO;
+use Ineersa\Hatfield\ExtensionApi\Tool\ToolCallDecisionKindEnum;
+use Ineersa\Hatfield\ExtensionApi\Tool\ToolCallHookInterface;
 
 /**
  * Interface for tool call hooks that requested approval via RequireApproval
@@ -22,9 +24,9 @@ use Ineersa\Hatfield\ExtensionApi\Tool\ToolCallDecisionDTO;
  * The base ToolCallHookInterface stays unchanged — hooks that do
  * not need answers simply do not implement this interface.
  *
- * @see \Ineersa\Hatfield\ExtensionApi\Tool\ToolCallHookInterface
+ * @see ToolCallHookInterface
  * @see ToolCallDecisionDTO
- * @see \Ineersa\Hatfield\ExtensionApi\Tool\ToolCallDecisionKindEnum
+ * @see ToolCallDecisionKindEnum
  * @see ApprovalAnswerContextDTO
  */
 interface ApprovalAnswerHookInterface
@@ -55,6 +57,8 @@ interface ApprovalAnswerHookInterface
      * The hook owns the complete answer-to-decision mapping, including
      * the answer vocabulary (e.g. "✅ Allow", "❌ Deny")
      * and the reasons/denied strings for blocked results.
+     *
+     * Returning RequireApproval is rejected and the tool call is denied.
      *
      * @param ApprovalAnswerContextDTO $context the human's answer + metadata
      *
